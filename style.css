@@ -1,0 +1,81 @@
+body {
+    padding: 2.5%;
+    margin: 2.5%;
+    background-color: #000;
+}
+
+/* div#controlBar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+audio {
+    /* align-items: center; */
+    width: 100%;
+    margin: 10px;
+}
+
+div.input-group {
+    margin: 2px;
+}
+
+button {
+    margin: 2px;
+}
+
+button.delete {
+    /* outline: 0;
+    color: white;
+    background-color: black;
+    border-color: black;
+    box-shadow: black; */
+    background:transparent;
+    border:none;
+    color:white;
+}
+
+input.form-control {
+    background-color: #343a40;
+    color: #6c757d;
+}
+
+span.input-group-text {
+    background-color: #343a40;
+    color: #6c757d;
+}
+
+div.popover-body {
+    color:white;
+    background-color: indianred;
+    /* position: absolute; */
+}
+
+.popover .arrow {
+    display: none;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 300px;
+}
+
+table {
+    color: white;
+    align-content: center;
+}
+
+td {
+    padding: 10px;
+}
+
+td.url {
+    width: 90%;
+}
+
+a {
+    text-align: right;
+}
