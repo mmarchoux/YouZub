@@ -1,23 +1,73 @@
+// const restService = "http://localhost:8000/list";
+const restService = "https://yuzeub.herokuapp.com/list";
+// const header = 'Access-Control-Allow-Origin: *';
+
 var playlist = new Vue({
   el: '#playlist',
   data: {
-    urls: [
-      { address: 'Foo' },
-      { address: 'Bar' }
+    musics: [
+      // { address: 'Foo' },
+      // { address: 'Bar' }
     ]
   },
+  mounted() {
+    // axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
+    // axios.get(restService, { headers: header })
+    // axios.get(restService, { crossdomain: true  })
+    axios.get(restService)
+        .then(response => {
+            this.musics = response.data
+            console.log( this.musics)
+        })
+  },
   methods: {
-    addEndList: function (iUrl) {
-      this.urls.push({address: iUrl}); 
+    addEndList: function (iId) {
+      axios.post(restService+"?id="+iId)
+      .then(response => {
+          this.musics = response.data
+          console.log( this.musics)
+      })
     },
-    addBeginList: function (iUrl) {
-      this.urls.unshift({address: iUrl}); 
+    addBeginList: function (iId) {
+      axios.post(restService+"?id="+iId+"&next")
+      .then(response => {
+          this.musics = response.data
+          console.log( this.musics)
+      })
     },
-    remove: function (iUrl) {
-      this.urls.splice(this.urls.indexOf(iUrl), 1); 
+    // remove: function (event) {
+      // console.log(this.id);
+      // axios.delete(restService+"?id="+iId)
+      // .then(response => {
+      //     this.musics = response.data
+      //     console.log( this.musics)
+      // })
+    // },
+    remove: function (iId) {
+      axios.delete(restService+"?id="+iId)
+      .then(response => {
+          this.musics = response.data
+          console.log( this.musics)
+      })
     }
+    // addEndList: function (iUrl) {
+    //   this.musics.push({address: iUrl});
+    // },
+    // addBeginList: function (iUrl) {
+    //   this.musics.unshift({address: iUrl});
+    // },
+    // remove: function (iUrl) {
+    //   this.musics.splice(this.musics.indexOf(iUrl), 1);
+    // }
   }
 });
+
+// $.getJson(restService, function(r) {
+//   if(r.error) {
+//     console.log("error retreiving data");
+//   }
+//   console.log(r);
+// })
 
 function getInputValue(){
   // Selecting the input element and get its value 
@@ -28,10 +78,14 @@ function getInputValue(){
 
 function addToPlaylist(){
   var input = getInputValue();
-  // urls.push({ address: input });
-  // playlist.data.urls.push({ address: input });
+  // musics.push({ address: input });
+  // playlist.data.musics.push({ address: input });
   if (input) {
-    playlist.addEndList(input);
+    // var id = input.split('/');
+    var reg = /^https:\/\/youtu\.be\/(.+)/;
+    console.log(input.replace(reg, '$1'));
+    // console.log(id[1]);
+    playlist.addEndList(input.replace(reg, '$1'));
   }
   else {
     $('#addEnd').popover('enable');
@@ -52,15 +106,20 @@ function addToPlaylist(){
     // });
     console.log("empty");
   }
-  // console.log(urls);
+  // console.log(musics);
 }
 
 function playNext(){
   var input = getInputValue();
-  // urls.unshift({ address: input });
-  // console.log(urls);
+  // musics.unshift({ address: input });
+  // console.log(musics);
   if (input) {
-    playlist.addBeginList(input);
+    // playlist.addBeginList(input);
+    // var id = input.split('/');
+    var reg = /^https:\/\/youtu\.be\/(.+)/;
+    console.log(input.replace(reg, '$1'));
+    // console.log(id[1]);
+    playlist.addBeginList(input.replace(reg, '$1'));
   }
   else {
     $('#addFirst').popover('enable');
@@ -83,9 +142,9 @@ function playNext(){
   }
 }
 
-function remove(urlToRemove){
-  // var input = getInputValue();
-  // urls.unshift({ address: input });
-  // console.log(urls);
-  playlist.remove(urlToRemove);
+function remove(musicToRemove){
+//   // var input = getInputValue();
+//   // musics.unshift({ address: input });
+  console.log("removing " + musicToRemove);
+  playlist.remove(musicToRemove);
 }

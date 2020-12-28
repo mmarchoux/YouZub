@@ -4,6 +4,26 @@ body {
     background-color: #000;
 }
 
+.pink {
+    color: #FD00E0;
+}
+
+.dark_pink {
+    color: #B300E3;
+}
+
+.purple {
+    color: #870CFA;
+}
+
+.blue_purple {
+    color: #3700E3;
+}
+
+.blue {
+    color: #0007FD;
+}
+
 /* div#controlBar {
     display: block;
     margin-left: auto;
@@ -20,8 +40,22 @@ div.input-group {
     margin: 2px;
 }
 
+p.title {
+    font-size: 18px;
+    margin-bottom: 1%;
+}
+
+p.artist {
+    font-size: 12px;
+}
+
+picture {
+    width: 40px;
+}
+
 button {
     margin: 2px;
+    /* width: 30%; */
 }
 
 button.delete {
