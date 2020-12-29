@@ -14,11 +14,7 @@ var playlist = new Vue({
     // axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
     // axios.get(restService, { headers: header })
     // axios.get(restService, { crossdomain: true  })
-    axios.get(restService)
-        .then(response => {
-            this.musics = response.data
-            console.log( this.musics)
-        })
+    refresh()
   },
   methods: {
     addEndList: function (iId) {
@@ -62,6 +58,13 @@ var playlist = new Vue({
   }
 });
 
+function refresh() {
+  axios.get(restService)
+  .then(response => {
+      playlist.musics = response.data
+      console.log( playlist.musics)
+  })
+}
 // $.getJson(restService, function(r) {
 //   if(r.error) {
 //     console.log("error retreiving data");
@@ -110,6 +113,7 @@ function onPlayerStateChange(event) {
   }
   if (event.data == YT.PlayerState.ENDED && started && playlist.musics.length > 1) {//player.getPlayerSate() == 0 ) {
     // player.videoId = playlist.musics[0].id;
+    refresh();
     player.loadVideoById(playlist.musics[1].id);
     player.nextVideo();
     playlist.remove(playlist.musics[0].id);
