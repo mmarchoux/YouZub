@@ -49,8 +49,8 @@ p.artist {
     font-size: 12px;
 }
 
-picture {
-    width: 40px;
+img {
+    width: 100px;
 }
 
 button {
@@ -89,7 +89,7 @@ div.popover-body {
     display: none;
 }
 
-img {
+img#qrCode {
     display: block;
     margin-left: auto;
     margin-right: auto;

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
 
-    <title>YouZub</title>
+    <title>YouZeub</title>
   </head>
   <body>
     <div class="row">
@@ -30,15 +30,17 @@
         </div>
 
         <div class="row">
-          <audio controls preload="auto">
+          <!-- <audio controls preload="auto">
             <source src="" type="audio/mp3">
             not supported by the browser
-          </audio>
+          </audio> -->
+          <!-- <iframe id="player" frameborder="0" allow="autoplay"></iframe> -->
+          <div id="player"></div>
         </div>
 
         <!-- <div class="row d-none d-md-block" id="qrCode"> -->
-        <div class="row" id="qrCode">
-          <img src="qr_code.png" alt="QR code"> <!--width="50%" height="50%">-->
+        <div class="row">
+          <img src="qr_code.png" alt="QR code" id="qrCode"> <!--width="50%" height="50%">-->
         </div>
       </div>
       <div class="col-sm-4">
@@ -50,7 +52,7 @@
           </tr>
           <tr v-for="music in musics" :key="music.id">
             <td>
-              <picture><source type="image/webp" :srcset="music.thumbnail"></picture>
+              <picture><img type="image/webp" :srcset="music.thumbnail"></picture>
                 <!-- <picture><source type="image/webp" :data-label="music.thumbnail" srcset="this.getAttribute('data-label')"></picture> -->
             </td>
             <td class="music">

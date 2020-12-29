@@ -68,6 +68,58 @@ var playlist = new Vue({
 //   }
 //   console.log(r);
 // })
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '360',
+    width: '640',
+    videoId: playlist.musics[0].id,
+    playerVars: {autoplay: true},
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
+
+// 5. The API calls this function when the player's state changes.
+//    The function indicates that when playing a video (state=1),
+//    the player should play for six seconds and then stop.
+var started = false;
+function onPlayerStateChange(event) {
+  // if (event.data == YT.PlayerState.PLAYING && !done) {
+  //   setTimeout(stopVideo, 6000);
+  //   done = true;
+  // }
+  if (event.data == YT.PlayerState.PLAYING && !started) {
+    started = true;
+  }
+  if (event.data == YT.PlayerState.ENDED && started && playlist.musics.length > 1) {//player.getPlayerSate() == 0 ) {
+    // player.videoId = playlist.musics[0].id;
+    player.loadVideoById(playlist.musics[1].id);
+    player.nextVideo();
+    playlist.remove(playlist.musics[0].id);
+    // event.target.playVideo();
+  }
+}
+// 
+// function stopVideo() {
+  // player.stopVideo();
+// }
 
 function getInputValue(){
   // Selecting the input element and get its value 
