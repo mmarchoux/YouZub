@@ -29,10 +29,13 @@
               <input type="checkbox" checked data-toggle="toggle" data-on="<i class='material-icons'>search</i>" data-off="<i class='material-icons'>language</i>">
               <input type="text" class="form-control m-1" placeholder="Copy your URL" aria-label="Copy your URL" aria-describedby="url" id="urlToAdd">
             </div>
-            <button type="button" class="btn btn-primary m-1" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">Queue</button>
-            <button type="button" class="btn btn-secondary m-1" onclick="playNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">Play next</button>
           </div>
-
+          <div class="row">
+            <button type="button" class="btn btn-primary m-1 queue" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">
+              <span class="material-icons" aria-hidden="true">vertical_align_bottom</span>Queue</button>
+            <button type="button" class="btn btn-secondary m-1 next " onclick="playNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">
+              <span class="material-icons" aria-hidden="true">vertical_align_top</span>Play Next</button>
+          </div>
           <div class="row">
             <!-- <audio controls preload="auto">
               <source src="" type="audio/mp3">
@@ -50,11 +53,12 @@
         <div class="col-md-4 p-4">
           <table id="playlist">
             <tr>
+              <th>Playlist</th>
               <th>
-                Playlist
-              </th>
-              <th>
-                <button type="button" class="btn btn-secondary m-2" onclick="refresh()" id="refresh">
+                <button type="button" class="btn btn-secondary m-1" onclick="next()" id="next">
+                  <span class="material-icons" aria-hidden="true">skip_next</span>
+                </button>
+                <button type="button" class="btn btn-secondary m-1" onclick="refresh()" id="refresh">
                   <span class="material-icons" aria-hidden="true">refresh</span>
                 </button>
               </th>

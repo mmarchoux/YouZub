@@ -59,6 +59,11 @@ img {
     background-color: var(--nav-col);
 }
 
+.music-item:nth-child(2) {
+    background: linear-gradient(90deg, var(--mblue) 45%, var(--mpink) 100%);
+}
+
+
 #refresh {
     float:right;
     background-color: transparent;
@@ -66,6 +71,14 @@ img {
     height: fit-content;
     outline: transparent;
 }
+
+#next {
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    outline: transparent;
+}
+
 
 .material-icons {
     vertical-align: middle;
@@ -78,6 +91,10 @@ img {
 
 .toggle {
     margin: 4px;
+}
+
+.toggle-off.btn {
+    background-color: var(--mpink);
 }
 
 .btn-primary {
