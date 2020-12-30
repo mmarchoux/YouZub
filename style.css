@@ -1,7 +1,16 @@
+:root {
+    --mpink:#FD00E0;
+    --mblue:#0007FD;
+    --mgrey:#d1cfcf;
+}
+
 body {
-    padding: 2.5%;
-    margin: 2.5%;
-    background-color: #000;
+    background-color: rgb(31, 31, 31);
+}
+
+.navbar {
+    background-color: rgb(41, 40, 40);
+    box-shadow: 2px 2px 10px rgb(20, 20, 20);
 }
 
 .pink {
@@ -23,21 +32,10 @@ body {
 .blue {
     color: #0007FD;
 }
-
-/* div#controlBar {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-} */
-
 audio {
     /* align-items: center; */
     width: 100%;
     margin: 10px;
-}
-
-div.input-group {
-    margin: 2px;
 }
 
 p.title {
@@ -53,30 +51,42 @@ img {
     width: 100px;
 }
 
-button {
-    margin: 2px;
-    /* width: 30%; */
+.music-item {
+    outline: solid var(--mgrey) 1px;
+}
+
+#refresh {
+    float:right;
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    outline: transparent;
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+.btn{
+    border-radius: 0 !important;
 }
 
 button.delete {
-    /* outline: 0;
-    color: white;
-    background-color: black;
-    border-color: black;
-    box-shadow: black; */
-    background:transparent;
-    border:none;
     color:white;
+}
+
+button.delete:hover {
+    color:rgb(109, 109, 109)
 }
 
 input.form-control {
     background-color: #343a40;
-    color: #6c757d;
+    color: transparent;
+    border-radius: 0 !important;
 }
 
 span.input-group-text {
     background-color: #343a40;
-    color: #6c757d;
 }
 
 div.popover-body {
