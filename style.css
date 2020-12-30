@@ -1,7 +1,7 @@
 :root {
     --mpink:#FD00E0;
     --mblue:#0007FD;
-    --mgrey:#d1cfcf;
+    --mgrey:#838383;
 }
 
 body {
@@ -69,6 +69,10 @@ img {
 
 .btn{
     border-radius: 0 !important;
+}
+
+.toggle {
+    margin: 4px;
 }
 
 button.delete {
