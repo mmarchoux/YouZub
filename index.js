@@ -1,5 +1,6 @@
 // const restService = "http://localhost:8000/list";
 const restService = "https://yuzeub.herokuapp.com/list";
+const restSearchService = "https://yuzeub.herokuapp.com/search";
 // const header = 'Access-Control-Allow-Origin: *';
 
 var playlist = new Vue({
@@ -17,19 +18,35 @@ var playlist = new Vue({
     refresh()
   },
   methods: {
-    addEndList: function (iId) {
-      axios.post(restService+"?id="+iId)
-      .then(response => {
-          this.musics = response.data
-          console.log( this.musics)
-      })
+    addEndList: function (input) {
+      if (document.getElementById("toggle-state").checked) {
+        axios.post(restSearchService+"?query="+input)
+        .then(response => {
+            this.musics = response.data
+            console.log(this.musics)
+        })
+      } else {
+        axios.post(restService+"?id="+input)
+        .then(response => {
+            this.musics = response.data
+            console.log(this.musics)
+        })
+      }
     },
-    addBeginList: function (iId) {
-      axios.post(restService+"?id="+iId+"&next")
-      .then(response => {
-          this.musics = response.data
-          console.log( this.musics)
-      })
+    addBeginList: function (input) {
+      if (document.getElementById("toggle-state").checked) {
+        axios.post(restSearchService+"?query="+input+"&next")
+        .then(response => {
+            this.musics = response.data
+            console.log(this.musics)
+        })
+      } else {
+        axios.post(restService+"?id="+input+"&next")
+        .then(response => {
+            this.musics = response.data
+            console.log(this.musics)
+        })
+      }
     },
     // remove: function (event) {
       // console.log(this.id);
@@ -43,7 +60,7 @@ var playlist = new Vue({
       axios.delete(restService+"?id="+iId)
       .then(response => {
           this.musics = response.data
-          console.log( this.musics)
+          console.log(this.musics)
       })
     }
     // addEndList: function (iUrl) {
@@ -65,6 +82,21 @@ function refresh() {
       console.log( playlist.musics)
   })
 }
+
+function setInputText() {
+  var input = document.getElementById("inputValue");
+  if (document.getElementById("toggle-state").checked) { // Checked -> Search, Untoggled -> URL
+    input.placeholder = "Search a music...";
+    input.setAttribute("aria-label", "Search a music");
+    input.setAttribute("aria-describedby", "search");
+  }
+  else {
+    input.placeholder = "Paste a sharing URL...";
+    input.setAttribute("aria-label", "Paste a sharing URL");
+    input.setAttribute("aria-describedby", "url");
+  }
+}
+
 // $.getJson(restService, function(r) {
 //   if(r.error) {
 //     console.log("error retreiving data");
@@ -77,6 +109,13 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Enter key adds video to queue
+document.getElementById("inputValue").addEventListener("keyup", event => {
+  if(event.key !== "Enter") return;
+  document.getElementById("addEnd").click(); 
+  event.preventDefault(); // No need to `return false;`.
+});
 
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
@@ -113,35 +152,40 @@ function onPlayerStateChange(event) {
   }
   if (event.data == YT.PlayerState.ENDED && started && playlist.musics.length > 1) {//player.getPlayerSate() == 0 ) {
     // player.videoId = playlist.musics[0].id;
-    refresh();
-    player.loadVideoById(playlist.musics[1].id);
-    player.nextVideo();
-    playlist.remove(playlist.musics[0].id);
+    playNextVideo();
     // event.target.playVideo();
   }
 }
-// 
-// function stopVideo() {
-  // player.stopVideo();
-// }
 
-function getInputValue(){
-  // Selecting the input element and get its value 
-  var urlToAdd = document.getElementById("urlToAdd").value;
-  console.log(urlToAdd);
-  return urlToAdd;
+function playNextVideo() {
+  refresh();
+  player.loadVideoById(playlist.musics[1].id);
+  player.nextVideo();
+  playlist.remove(playlist.musics[0].id);
 }
 
-function addToPlaylist(){
+function getInputValue() {
+  // Selecting the input element and get its value 
+  var inputValue = document.getElementById("inputValue").value;
+  document.getElementById("inputValue").value = "";
+  console.log(inputValue);
+  return inputValue;
+}
+
+function addToPlaylist() {
   var input = getInputValue();
   // musics.push({ address: input });
   // playlist.data.musics.push({ address: input });
   if (input) {
-    // var id = input.split('/');
-    var reg = /^https:\/\/youtu\.be\/(.+)/;
-    console.log(input.replace(reg, '$1'));
-    // console.log(id[1]);
-    playlist.addEndList(input.replace(reg, '$1'));
+    if (document.getElementById("toggle-state").checked) {
+      playlist.addEndList(input.replace(" ", "%20"));
+    } else {
+      // var id = input.split('/');
+      var reg = /^https:\/\/youtu\.be\/(.+)/;
+      console.log(input.replace(reg, '$1'));
+      // console.log(id[1]);
+      playlist.addEndList(input.replace(reg, '$1'));
+    }
   }
   else {
     $('#addEnd').popover('enable');
@@ -165,17 +209,21 @@ function addToPlaylist(){
   // console.log(musics);
 }
 
-function playNext(){
+function putNext(){
   var input = getInputValue();
   // musics.unshift({ address: input });
   // console.log(musics);
   if (input) {
-    // playlist.addBeginList(input);
-    // var id = input.split('/');
-    var reg = /^https:\/\/youtu\.be\/(.+)/;
-    console.log(input.replace(reg, '$1'));
-    // console.log(id[1]);
-    playlist.addBeginList(input.replace(reg, '$1'));
+    if (document.getElementById("toggle-state").checked) {
+      playlist.addBeginList(input.replace(" ", "%20"));
+    } else {
+      // playlist.addBeginList(input);
+      // var id = input.split('/');
+      var reg = /^https:\/\/youtu\.be\/(.+)/;
+      console.log(input.replace(reg, '$1'));
+      // console.log(id[1]);
+      playlist.addBeginList(input.replace(reg, '$1'));
+    }
   }
   else {
     $('#addFirst').popover('enable');
