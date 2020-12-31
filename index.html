@@ -34,7 +34,7 @@
           </div>
           <div class="row">
             <!-- <iframe id="player" frameborder="0" allow="autoplay"></iframe> -->
-            <div id="player" class="m-1"></div>
+            <div id="player" class="mt-1"></div>
           </div>
           <div class="row">
             <img src="qr_code.png" alt="QR code" id="qrCode">
@@ -42,8 +42,8 @@
         </div>
         <div class="col-sm-4 p-4">
           <table id="playlist">
-            <tr>
-              <th>Playlist</th>
+            <tr id="header">
+              <th class="p-2">Playlist</th>
               <th>
                 <button type="button" class="btn btn-secondary m-1" onclick="playNextVideo()" id="next">
                   <span class="material-icons" aria-hidden="true">skip_next</span>
@@ -53,7 +53,7 @@
                 </button>
               </th>
             </tr>
-            <tr class="music-item" v-for="music in musics" :key="music.id">
+            <tr class="music-item m-1" v-for="music in musics" :key="music.id">
               <td>
                 <picture><img type="image/webp" :srcset="music.thumbnail"></picture>
               </td>

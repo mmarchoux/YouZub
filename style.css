@@ -54,8 +54,12 @@ img {
     width: 100px;
 }
 
+#header {
+    box-shadow: 2px 2px 10px rgb(20, 20, 20);
+}
+
 .music-item {
-    outline: solid var(--mgrey) 1px;
+    box-shadow: 2px 2px 10px rgb(20, 20, 20);
     background-color: var(--nav-col);
 }
 
@@ -103,6 +107,12 @@ img {
 
 button.delete {
     color:white;
+}
+
+#player {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 button.delete:hover {
