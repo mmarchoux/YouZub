@@ -1,6 +1,8 @@
 // const restService = "http://localhost:8000/list";
-const restService = "https://yuzeub.herokuapp.com/list";
-const restSearchService = "https://yuzeub.herokuapp.com/search";
+const restUrl = "http://rushmore.freeboxos.fr";
+const restPort = 8000;
+const restService = restUrl + ":" + restPort + "/list";
+const restSearchService = restUrl + ":" + restPort + "/search";
 // const header = 'Access-Control-Allow-Origin: *';
 
 var playlist = new Vue({
