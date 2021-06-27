@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icon.png">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>YuzeuB</title>
+  </head>
+  <body>
+    <nav class="navbar shadow navbar-expand-lg static-top">
+      <a class="navbar-brand ml-5">
+            <img src="logo.png" alt="">
+          </a>
+    </nav>
+    <div class="m-4">
+      <div class="row">
+        <h1 id="token">{{ token }}</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 p-4" >
+          <div class="row">
+            <div class="input-group">
+              <input type="checkbox" id="toggle-state" checked data-toggle="toggle" onchange="setInputText()" data-on="<i class='material-icons'>search</i>" data-off="<i class='material-icons'>language</i>">
+              <input type="text" class="form-control m-1" placeholder="Search a music..." aria-label="Search a music" aria-describedby="search" id="inputValue">
+            </div>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-primary m-1 queue" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">
+              <span class="material-icons" aria-hidden="true">vertical_align_bottom</span>Queue</button>
+            <button type="button" class="btn btn-secondary m-1 next " onclick="putNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">
+              <span class="material-icons" aria-hidden="true">vertical_align_top</span>Play Next</button>
+          </div>
+          <div class="row">
+            <!-- <iframe id="player" frameborder="0" allow="autoplay"></iframe> -->
+            <div id="player" class="mt-1"></div>
+          </div>
+          <div class="row">
+            <img src="qr_code.png" alt="QR code" id="qrCode">
+          </div>
+        </div>
+        <div class="col-sm-4 p-4">
+          <table id="playlist">
+            <tr id="header">
+              <th class="p-2">Playlist</th>
+              <th>
+                <button type="button" class="btn btn-secondary m-1" onclick="playNextVideo()" id="next">
+                  <span class="material-icons" aria-hidden="true">skip_next</span>
+                </button>
+              </th>
+              <th>
+                <button type="button" class="btn btn-secondary m-1" onclick="refresh()" id="refresh">
+                  <span class="material-icons" aria-hidden="true">refresh</span>
+                </button>
+              </th>
+            </tr>
+            <tr class="music-item m-1" v-for="music in musics" :key="music.id">
+              <td>
+                <picture><img type="image/webp" :srcset="music.thumbnail"></picture>
+              </td>
+              <td class="music">
+                <p class="title">{{ music.title }}</p>
+                <p class="artist">{{ music.uploader }}</p>
+              </td>
+              <td>
+                <button class="delete close" type="button" :data-label="music.id" onclick="remove(this.getAttribute('data-label'))"><span aria-hidden="true">&times;</span></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="party.js"></script>
+  </body>
+</html>
