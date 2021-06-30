@@ -15,17 +15,17 @@ function createParty()
 {
   axios.post(restPartyUrl)
         .then(response => {
-          console.log(response.data)
+          console.log(response.data);
+          console.log(restPartyUrl+"?token="+response.data);
+          window.location.replace(restPartyUrl+"?token="+response.data);
         })
+
 }
 
 function joinParty()
 {
   var input = getInputValue();
   if (input) {
-    axios.get(restPartyUrl+"?"+input)
-         .then(response => {
-           console.log(response.data)
-         })
+    window.location.replace(restPartyUrl+"?token="+input);
   }
 }
