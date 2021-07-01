@@ -1,8 +1,9 @@
 const restUrl = "http://rushmore.freeboxos.fr:8000/yuzeub";
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const token = urlParams.get('token');
+// const queryString = window.location.search;
+// const urlParams = new URLSearchParams(queryString);
+// const token = urlParams.get('token');
+const token = '2uq9XB5d'
 
 const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
@@ -18,6 +19,7 @@ var playlist = new Vue({
   },
   methods: {
     addEndList: function (input) {
+      this.musics.push({"alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input)
         .then(response => {
@@ -31,8 +33,10 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
+      this.musics = this.music.filter(el => el.alt == "loading");
     },
     addBeginList: function (input) {
+      this.musics.splice(1, 0, {"alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input+"&next")
         .then(response => {
@@ -46,6 +50,7 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
+      this.musics = this.music.filter(el => el.alt == "loading");
     },
     remove: function (iId) {
       axios.delete(restService+"&id="+iId)
