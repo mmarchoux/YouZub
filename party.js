@@ -91,7 +91,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // Enter key adds video to queue
 document.getElementById("inputValue").addEventListener("keyup", event => {
   if(event.key !== "Enter") return;
-  document.getElementById("addEnd").click(); 
+  document.getElementById("addEnd").click();
   event.preventDefault(); // No need to `return false;`.
 });
 
@@ -137,7 +137,7 @@ function playNextVideo() {
 }
 
 function getInputValue() {
-  // Selecting the input element and get its value 
+  // Selecting the input element and get its value
   var inputValue = document.getElementById("inputValue").value;
   document.getElementById("inputValue").value = "";
   console.log(inputValue);
@@ -158,7 +158,7 @@ function addToPlaylist() {
   else {
     $('#addEnd').popover('enable');
     $('#addEnd').popover('show');
-    $("#addEnd").on('shown.bs.popover',function() { 
+    $("#addEnd").on('shown.bs.popover',function() {
        setTimeout(function() {
         $("#addEnd").popover("hide")}, 500);
     });
@@ -181,7 +181,7 @@ function putNext(){
   else {
     $('#addFirst').popover('enable');
     $('#addFirst').popover('show');
-    $("#addFirst").on('shown.bs.popover',function() { 
+    $("#addFirst").on('shown.bs.popover',function() {
        setTimeout(function() {
         $("#addFirst").popover("hide")}, 500);
     });
@@ -192,5 +192,9 @@ function putNext(){
 
 function remove(musicToRemove){
   console.log("removing " + musicToRemove);
-  playlist.remove(musicToRemove);
+  if (musicToRemove == playlist.musics[0].id) {
+    playNextVideo();
+  } else {
+    playlist.remove(musicToRemove);
+  }
 }
