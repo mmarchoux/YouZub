@@ -1,4 +1,4 @@
-const restUrl = "http://rushmore.freeboxos.fr:8000/yuzeub";
+const restUrl = "http://rushmore.freeboxos.fr/yuzeub";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
