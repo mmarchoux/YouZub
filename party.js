@@ -154,9 +154,13 @@ function addToPlaylist() {
     if (document.getElementById("toggle-state").checked) {
       playlist.addEndList(input.replace(" ", "%20"));
     } else {
-      var reg = /^https:\/\/youtu\.be\/(.+)/;
-      console.log(input.replace(reg, '$1'));
-      playlist.addEndList(input.replace(reg, '$1'));
+      var reg_share = /^https:\/\/youtu\.be\/(.+)/;
+      console.log(input.replace(reg_share, '$1'));
+      input = input.replace(reg_share, '$1');
+      var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
+      console.log(input.replace(reg_url, '$1'));
+      input = input.replace(reg_url, '$1');
+      playlist.addEndList(input);
     }
   }
   else {
@@ -177,9 +181,13 @@ function putNext(){
     if (document.getElementById("toggle-state").checked) {
       playlist.addBeginList(input.replace(" ", "%20"));
     } else {
-      var reg = /^https:\/\/youtu\.be\/(.+)/;
-      console.log(input.replace(reg, '$1'));
-      playlist.addBeginList(input.replace(reg, '$1'));
+      var reg_share = /^https:\/\/youtu\.be\/(.+)/;
+      console.log(input.replace(reg_share, '$1'));
+      input = input.replace(reg_share, '$1');
+      var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
+      console.log(input.replace(reg_url, '$1'));
+      input = input.replace(reg_url, '$1');
+      playlist.addBeginList(input);
     }
   }
   else {
