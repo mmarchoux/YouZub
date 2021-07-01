@@ -133,9 +133,11 @@ function onPlayerStateChange(event) {
 
 function playNextVideo() {
   refresh();
-  player.loadVideoById(playlist.musics[1].id);
-  player.nextVideo();
-  playlist.remove(playlist.musics[0].id);
+  if (playlist.musics.length > 1) {
+    player.loadVideoById(playlist.musics[1].id);
+    player.nextVideo();
+    playlist.remove(playlist.musics[0].id);
+  }
 }
 
 function getInputValue() {
