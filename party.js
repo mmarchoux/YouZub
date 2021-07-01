@@ -19,7 +19,7 @@ var playlist = new Vue({
   },
   methods: {
     addEndList: function (input) {
-      this.musics.push({"alt": "loading", "thumbnail": "loading.gif"});
+      this.musics.push({"input": input, "alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input)
         .then(response => {
@@ -33,10 +33,10 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
-      this.musics = this.music.filter(el => el.alt == "loading");
+      this.musics = this.music.filter(el => el.alt == "loading" && el.input == input);
     },
     addBeginList: function (input) {
-      this.musics.splice(1, 0, {"alt": "loading", "thumbnail": "loading.gif"});
+      this.musics.splice(1, 0, {"input": input, "alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input+"&next")
         .then(response => {
@@ -50,7 +50,7 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
-      this.musics = this.music.filter(el => el.alt == "loading");
+      this.musics = this.music.filter(el => el.alt == "loading" && el.input == input);
     },
     remove: function (iId) {
       axios.delete(restService+"&id="+iId)
