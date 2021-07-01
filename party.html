@@ -13,32 +13,34 @@
     <title>YuzeuB</title>
   </head>
   <body>
-    <nav class="navbar shadow navbar-expand-lg static-top">
-      <a class="navbar-brand ml-5">
-            <img src="logo.png" alt="">
-          </a>
+    <nav class="navbar shadow static-top">
+      <div class="col-sm-2">
+        <a class="navbar-brand px-5">
+          <img src="logo.png" alt="">
+        </a>
+      </div>
+      <div class="col-sm-7">
+        <div class="input-group">
+          <input type="checkbox" id="toggle-state" checked data-toggle="toggle" onchange="setInputText()" data-on="<i class='material-icons'>search</i>" data-off="<i class='material-icons'>language</i>">
+          <input type="text" class="form-control m-1" placeholder="Search a music..." aria-label="Search a music" aria-describedby="search" id="inputValue">
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <button type="button" class="btn btn-primary m-1 queue" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">
+          <span class="material-icons" aria-hidden="true">vertical_align_bottom</span>Queue</button>
+        <button type="button" class="btn btn-secondary m-1 next" onclick="putNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">
+          <span class="material-icons" aria-hidden="true">vertical_align_top</span>Play Next</button>
+      </div>
     </nav>
     <div class="m-4">
       <div class="row">
-        <div class="col-sm-8 p-4" >
-          <div class="row">
-            <div class="input-group">
-              <input type="checkbox" id="toggle-state" checked data-toggle="toggle" onchange="setInputText()" data-on="<i class='material-icons'>search</i>" data-off="<i class='material-icons'>language</i>">
-              <input type="text" class="form-control m-1" placeholder="Search a music..." aria-label="Search a music" aria-describedby="search" id="inputValue">
-            </div>
-          </div>
-          <div class="row">
-            <button type="button" class="btn btn-primary m-1 queue" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">
-              <span class="material-icons" aria-hidden="true">vertical_align_bottom</span>Queue</button>
-            <button type="button" class="btn btn-secondary m-1 next " onclick="putNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">
-              <span class="material-icons" aria-hidden="true">vertical_align_top</span>Play Next</button>
-          </div>
+        <div class="col-sm-7 p-4" >
           <div class="row">
             <!-- <iframe id="player" frameborder="0" allow="autoplay"></iframe> -->
             <div id="player" class="mt-1"></div>
           </div>
         </div>
-        <div class="col-sm-4 p-4">
+        <div class="col-sm-5 p-4">
           <table id="playlist">
             <tr id="header">
               <th class="p-2">Playlist</th>
