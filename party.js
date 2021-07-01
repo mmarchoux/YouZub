@@ -1,7 +1,7 @@
 const restUrl = "http://rushmore.freeboxos.fr:8000/yuzeub";
 
-// const queryString = window.location.search;
-// const urlParams = new URLSearchParams(queryString);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 const token = urlParams.get('token');
 // const token = '2uq9XB5d'
 
