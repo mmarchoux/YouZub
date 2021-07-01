@@ -1,12 +1,13 @@
 const restUrl = "http://rushmore.freeboxos.fr:8000/yuzeub";
 
-// const queryString = window.location.search;
-// const urlParams = new URLSearchParams(queryString);
-// const token = urlParams.get('token');
-const token = '2uq9XB5d'
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const token = urlParams.get('token');
 
 const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
+
+window.setInterval('refresh()', 10000); 
 
 var playlist = new Vue({
   el: '#playlist',
@@ -19,7 +20,6 @@ var playlist = new Vue({
   },
   methods: {
     addEndList: function (input) {
-      this.musics.push({"alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input)
         .then(response => {
@@ -33,10 +33,8 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
-      this.musics = this.music.filter(el => el.alt == "loading");
     },
     addBeginList: function (input) {
-      this.musics.splice(1, 0, {"alt": "loading", "thumbnail": "loading.gif"});
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input+"&next")
         .then(response => {
@@ -50,7 +48,6 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
-      this.musics = this.music.filter(el => el.alt == "loading");
     },
     remove: function (iId) {
       axios.delete(restService+"&id="+iId)
@@ -94,7 +91,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // Enter key adds video to queue
 document.getElementById("inputValue").addEventListener("keyup", event => {
   if(event.key !== "Enter") return;
-  document.getElementById("addEnd").click(); 
+  document.getElementById("addEnd").click();
   event.preventDefault(); // No need to `return false;`.
 });
 
@@ -140,7 +137,7 @@ function playNextVideo() {
 }
 
 function getInputValue() {
-  // Selecting the input element and get its value 
+  // Selecting the input element and get its value
   var inputValue = document.getElementById("inputValue").value;
   document.getElementById("inputValue").value = "";
   console.log(inputValue);
@@ -161,7 +158,7 @@ function addToPlaylist() {
   else {
     $('#addEnd').popover('enable');
     $('#addEnd').popover('show');
-    $("#addEnd").on('shown.bs.popover',function() { 
+    $("#addEnd").on('shown.bs.popover',function() {
        setTimeout(function() {
         $("#addEnd").popover("hide")}, 500);
     });
@@ -184,7 +181,7 @@ function putNext(){
   else {
     $('#addFirst').popover('enable');
     $('#addFirst').popover('show');
-    $("#addFirst").on('shown.bs.popover',function() { 
+    $("#addFirst").on('shown.bs.popover',function() {
        setTimeout(function() {
         $("#addFirst").popover("hide")}, 500);
     });
@@ -195,5 +192,9 @@ function putNext(){
 
 function remove(musicToRemove){
   console.log("removing " + musicToRemove);
-  playlist.remove(musicToRemove);
+  if (musicToRemove == playlist.musics[0].id) {
+    playNextVideo();
+  } else {
+    playlist.remove(musicToRemove);
+  }
 }
