@@ -14,29 +14,32 @@
     <title>YuzeuB</title>
   </head>
   <body>
-    <nav class="navbar shadow navbar-expand-lg static-top">
-      <a class="navbar-brand ml-5">
-        <img src="logo.png" alt="">
-      </a>
-      <button type="button"class="btn btn-help m-1">
-        <span class="material-icons-sharp" aria-hidden="true">help_center</span>
-      </button>
-    </nav>
-    <div class="m-4">
-      <!-- <div class="row">
-        <div class="col-sm-8 p-4" > -->
-          <div class="row">
-            <button type="button" class="btn btn-primary m-1 queue" onclick="createParty()" data-toggle="popover" data-placement="top" data-content="" id="">
-              <span class="material-icons" aria-hidden="true">add</span>Create a new party</button>
-          </div>
-          <div class="row">
-            <div class="input-group">
-              <input type="text" class="form-control m-1" placeholder="Enter the name of the party" aria-label=">Join a party" aria-describedby="search" id="inputValue">
-              <button type="button" class="btn btn-primary m-1 queue" onclick="joinParty()" data-toggle="popover" data-placement="top" data-content="" id="">
-                <span class="material-icons" aria-hidden="true">search</span>Join a party</button>
-            </div>
-          <!-- </div>
-        </div> -->
+    <div class="col p-5">
+      <div class="container greeting-container p-3">
+        <div class="row my-4">
+          <img src="logo.png" class="mx-auto" alt="">
+        </div>
+        <div class="row m-3 p-4">
+          <button type="button" class="btn btn-primary mx-auto queue" style="background-color: var(--mpink);" onclick="createParty()" data-toggle="popover" data-placement="top" data-content="" id="">
+            <span class="material-icons" aria-hidden="true">add</span>Create a new party</button>
+        </div>
+        <div class="row m-3 p-2">
+          <div class="col-5 pr-0"><hr style="margin-right: 0;"></div>
+          <div class="col-2 px-0"><p style="color: var(--mgrey); text-align: center;">OR</p></div>
+          <div class="col-5 pl-0"><hr style="margin-left: 0;"></div>
+        </div>
+        <div class="row m-3 p-4">
+          <input type="text" class="form-control mx-auto" placeholder="Party Token" aria-label=">Join a party" aria-describedby="search" id="inputValue">
+        </div>
+        <div class="row m-3">
+          <button type="button" class="btn btn-primary mx-auto queue" onclick="joinParty()" data-toggle="popover" data-placement="top" data-content="" id="">
+            <span class="material-icons" aria-hidden="true">search</span>Join a party</button>
+        </div>
+        <div class="row m-3 pt-3">
+          <button type="button"class="mx-auto btn btn-help m-1">
+            <span class="material-icons-sharp m-1" style="color: var(--mgrey);" aria-hidden="true">help_center</span>
+          </button>
+        </div>
       </div>
     </div>
 
