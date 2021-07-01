@@ -7,7 +7,7 @@ const token = urlParams.get('token');
 const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
 
-window.setInterval('refresh()', 10000); 
+window.setInterval('refresh()', 10000);
 
 var playlist = new Vue({
   el: '#playlist',
@@ -33,6 +33,7 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
+      refresh();
     },
     addBeginList: function (input) {
       if (document.getElementById("toggle-state").checked) {
@@ -48,6 +49,7 @@ var playlist = new Vue({
             console.log(this.musics)
         })
       }
+      refresh();
     },
     remove: function (iId) {
       axios.delete(restService+"&id="+iId)
