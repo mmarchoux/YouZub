@@ -29,3 +29,10 @@ function joinParty()
     window.location.replace(restPartyUrl+"?token="+input);
   }
 }
+
+// Enter key join party
+document.getElementById("inputValue").addEventListener("keyup", event => {
+  if(event.key !== "Enter") return;
+  document.getElementById("joinParty").click();
+  event.preventDefault(); // No need to `return false;`.
+});

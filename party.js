@@ -126,7 +126,7 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && !started) {
     started = true;
   }
-  if (event.data == YT.PlayerState.ENDED && started && playlist.musics.length > 1) {
+  if (event.data == YT.PlayerState.ENDED && started) {
     playNextVideo();
   }
 }
