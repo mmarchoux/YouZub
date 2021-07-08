@@ -6,6 +6,7 @@ const token = urlParams.get('token');
 
 const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
+const restSwapService = restUrl + "/swap?token=" + token;
 
 window.setInterval('refresh()', 10000);
 
@@ -65,7 +66,7 @@ function refresh() {
   axios.get(restService)
   .then(response => {
       playlist.musics = response.data
-      console.log( playlist.musics)
+      console.log(playlist.musics)
   })
 }
 
@@ -181,12 +182,18 @@ function putNext(){
     if (document.getElementById("toggle-state").checked) {
       playlist.addBeginList(input.replace(" ", "%20"));
     } else {
+      // Sharing link
       var reg_share = /^https:\/\/youtu\.be\/(.+)/;
       console.log(input.replace(reg_share, '$1'));
       input = input.replace(reg_share, '$1');
+
+      // Normal link
       var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
       console.log(input.replace(reg_url, '$1'));
       input = input.replace(reg_url, '$1');
+
+      // TODO: Playlist link
+
       playlist.addBeginList(input);
     }
   }
@@ -209,4 +216,52 @@ function remove(musicToRemove){
   } else {
     playlist.remove(musicToRemove);
   }
+}
+
+function revealMoveBtns(index) {
+  index = parseInt(index)
+  music_item = document.getElementById("playlist")
+                       .getElementsByClassName("music-item")[index]
+  if (index > 0) {
+    music_item.getElementsByClassName("up")[0]
+              .style.visibility = "visible";
+  }
+  if (index < playlist.musics.length - 1) {
+    music_item.getElementsByClassName("down")[0]
+              .style.visibility = "visible";
+  }
+}
+
+function hideMoveBtns(index) {
+  index = parseInt(index)
+  music_item = document.getElementById("playlist")
+                       .getElementsByClassName("music-item")[index]
+
+  music_item.getElementsByClassName("up")[0]
+            .style.visibility = "hidden";
+  music_item.getElementsByClassName("down")[0]
+            .style.visibility = "hidden";
+}
+
+function move_up(index) {
+  index = parseInt(index)
+  if (index > 0) {
+    swap(playlist.musics[index].id, playlist.musics[index - 1].id)
+  }
+}
+
+function move_down(index) {
+  index = parseInt(index)
+  if (index < playlist.musics.length - 1) {
+    swap(playlist.musics[index].id, playlist.musics[index + 1].id)
+  }
+}
+
+function swap(id_l, id_r) {
+  axios.post(restSwapService+"&idl="+id_l+"&idr="+id_r)
+       .then(response => {
+          playlist.musics = response.data
+          console.log(playlist.musics)
+       }
+    )
 }

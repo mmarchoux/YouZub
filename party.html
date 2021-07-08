@@ -53,7 +53,7 @@
                 </button>
               </th>
             </tr>
-            <tr class="music-item m-1" v-for="music in musics" :key="music.id">
+            <tr class="music-item m-1" v-for="(music, index) in musics" :key="music.id" :data-label="index" onmouseover="revealMoveBtns(this.getAttribute('data-label'))" onmouseleave="hideMoveBtns(this.getAttribute('data-label'))">
               <td>
                 <picture><img type="image/webp" :srcset="music.thumbnail"></picture>
               </td>
@@ -62,7 +62,13 @@
                 <p class="artist">{{ music.uploader }}</p>
               </td>
               <td>
-                <button class="delete close" type="button" :data-label="music.id" onclick="remove(this.getAttribute('data-label'))"><span aria-hidden="true">&times;</span></button>
+                <div class="col">
+                  <button class="move-btn up close" type="button" :data-label="index" onclick="move_up(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_less</span></button>
+                  <div class="w-100"></div>
+                  <button class="delete close" type="button" :data-label="music.id" onclick="remove(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">close</span></button>
+                  <div class="w-100"></div>
+                  <button class="move-btn down close" type="button" :data-label="index" onclick="move_down(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_more</span></button>
+                </div>
               </td>
             </tr>
           </table>
