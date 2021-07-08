@@ -1,3 +1,5 @@
+/* definition of constants*/
+
 const restUrl = "http://rushmore.freeboxos.fr/yuzeub";
 
 const queryString = window.location.search;
@@ -8,8 +10,13 @@ const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
 const restSwapService = restUrl + "/swap?token=" + token;
 
-window.setInterval('refresh()', 10000);
+const POPUP_TIMEOUT = 2000;
 
+const REFRESH_INTERVAL = 10000;
+window.setInterval('refresh()', REFRESH_INTERVAL);
+
+
+/* Playlist */
 var playlist = new Vue({
   el: '#playlist',
   data: {
@@ -23,44 +30,88 @@ var playlist = new Vue({
     addEndList: function (input) {
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input)
-        .then(response => {
-            this.musics = response.data
-            console.log(this.musics)
-        })
+            .then(response => {
+                this.musics = response.data
+            })
       } else {
         axios.post(restService+"&id="+input)
-        .then(response => {
-            this.musics = response.data
-            console.log(this.musics)
-        })
+            .then(response => {
+                this.musics = response.data
+            })
       }
+      // Refresh needed because query takes time
       refresh();
     },
     addBeginList: function (input) {
       if (document.getElementById("toggle-state").checked) {
         axios.post(restSearchService+"&query="+input+"&next")
-        .then(response => {
-            this.musics = response.data
-            console.log(this.musics)
-        })
+            .then(response => {
+                this.musics = response.data
+            })
       } else {
         axios.post(restService+"&id="+input+"&next")
-        .then(response => {
-            this.musics = response.data
-            console.log(this.musics)
-        })
+            .then(response => {
+                this.musics = response.data
+            })
       }
+      // Refresh needed because query takes time
       refresh();
     },
-    remove: function (iId) {
-      axios.delete(restService+"&id="+iId)
-      .then(response => {
-          this.musics = response.data
-          console.log(this.musics)
-      })
+    remove: function (id) {
+      axios.delete(restService+"&id="+id)
+          .then(response => {
+              this.musics = response.data
+          })
     }
   }
 });
+
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Enter key adds video to queue
+document.getElementById("inputValue").addEventListener("keyup", event => {
+  if(event.key !== "Enter") return;
+  document.getElementById("addEnd").click();
+  event.preventDefault();
+});
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '360',
+    width: '640',
+    videoId: playlist.musics[0].id,
+    playerVars: { autoplay: true },
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
+
+// 5. The API calls this function when the player's state changes.
+//    The function indicates that when playing a video (state=1)
+var started = false;
+function onPlayerStateChange(event) {
+  if (event.data == YT.PlayerState.PLAYING && !started) {
+    started = true;
+  }
+  if (event.data == YT.PlayerState.ENDED && started) {
+    playNextVideo();
+  }
+}
 
 function refresh() {
   axios.get(restService)
@@ -68,6 +119,15 @@ function refresh() {
       playlist.musics = response.data
       console.log(playlist.musics)
   })
+}
+
+function playNextVideo() {
+  refresh();
+  if (playlist.musics.length > 1) {
+    player.loadVideoById(playlist.musics[1].id);
+    player.nextVideo();
+    playlist.remove(playlist.musics[0].id);
+  }
 }
 
 function setInputText() {
@@ -84,133 +144,65 @@ function setInputText() {
   }
 }
 
-// 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// Enter key adds video to queue
-document.getElementById("inputValue").addEventListener("keyup", event => {
-  if(event.key !== "Enter") return;
-  document.getElementById("addEnd").click();
-  event.preventDefault(); // No need to `return false;`.
-});
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '360',
-    width: '640',
-    videoId: playlist.musics[0].id,
-    playerVars: {autoplay: true},
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-  event.target.playVideo();
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var started = false;
-function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING && !started) {
-    started = true;
-  }
-  if (event.data == YT.PlayerState.ENDED && started) {
-    playNextVideo();
-  }
-}
-
-function playNextVideo() {
-  refresh();
-  if (playlist.musics.length > 1) {
-    player.loadVideoById(playlist.musics[1].id);
-    player.nextVideo();
-    playlist.remove(playlist.musics[0].id);
-  }
-}
-
 function getInputValue() {
-  // Selecting the input element and get its value
-  var inputValue = document.getElementById("inputValue").value;
+  // Select the input element and get its value
+  var input = document.getElementById("inputValue").value;
   document.getElementById("inputValue").value = "";
-  console.log(inputValue);
-  return inputValue;
+  console.log(input);
+
+  input = input.replace(" ", "%20");
+
+  // Sharing link
+  var reg_share = /^https:\/\/youtu\.be\/(.+)/;
+  input = input.replace(reg_share, '$1');
+  console.log(input);
+
+  // Normal link
+  var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
+  input = input.replace(reg_url, '$1');
+  console.log(input);
+
+  // Playlist link
+  var reg_playlist = /^https:\/\/www\.youtube\.com\/playlist\?list=(.+)/;
+  input = input.replace(reg_playlist, '$1');
+  console.log(input);
+
+  return input;
 }
 
-function addToPlaylist() {
+function addQueue() {
   var input = getInputValue();
   if (input) {
-    if (document.getElementById("toggle-state").checked) {
-      playlist.addEndList(input.replace(" ", "%20"));
-    } else {
-      var reg_share = /^https:\/\/youtu\.be\/(.+)/;
-      console.log(input.replace(reg_share, '$1'));
-      input = input.replace(reg_share, '$1');
-      var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
-      console.log(input.replace(reg_url, '$1'));
-      input = input.replace(reg_url, '$1');
-      playlist.addEndList(input);
-    }
+    playlist.addEndList(input);
   }
   else {
-    $('#addEnd').popover('enable');
-    $('#addEnd').popover('show');
-    $("#addEnd").on('shown.bs.popover',function() {
-       setTimeout(function() {
-        $("#addEnd").popover("hide")}, 500);
-    });
-    $('#addEnd').popover('disable');
-    console.log("empty");
+    popupEmptyInput();
   }
 }
 
-function putNext(){
+function addNext(){
   var input = getInputValue();
   if (input) {
-    if (document.getElementById("toggle-state").checked) {
-      playlist.addBeginList(input.replace(" ", "%20"));
-    } else {
-      // Sharing link
-      var reg_share = /^https:\/\/youtu\.be\/(.+)/;
-      console.log(input.replace(reg_share, '$1'));
-      input = input.replace(reg_share, '$1');
-
-      // Normal link
-      var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
-      console.log(input.replace(reg_url, '$1'));
-      input = input.replace(reg_url, '$1');
-
-      // TODO: Playlist link
-
-      playlist.addBeginList(input);
-    }
+    playlist.addBeginList(input);
   }
   else {
-    $('#addFirst').popover('enable');
-    $('#addFirst').popover('show');
-    $("#addFirst").on('shown.bs.popover',function() {
-       setTimeout(function() {
-        $("#addFirst").popover("hide")}, 500);
-    });
-    $('#addFirst').popover('disable');
-    console.log("empty");
+    popupEmptyInput();
   }
+}
+
+function popupEmptyInput() {
+  $('#inputValue').popover('enable');
+  $('#inputValue').popover('show');
+  $("#inputValue").on('shown.bs.popover',function() {
+      setTimeout(function() {
+      $("#inputValue").popover("hide")}, POPUP_TIMEOUT);
+  });
+  $('#inputValue').popover('disable');
+  console.log("Input empty");
 }
 
 function remove(musicToRemove){
-  console.log("removing " + musicToRemove);
+  console.log("Removing " + musicToRemove);
   if (musicToRemove == playlist.musics[0].id) {
     playNextVideo();
   } else {
@@ -222,11 +214,11 @@ function revealMoveBtns(index) {
   index = parseInt(index)
   music_item = document.getElementById("playlist")
                        .getElementsByClassName("music-item")[index]
-  if (index > 0) {
+  if (index > 1) {
     music_item.getElementsByClassName("up")[0]
               .style.visibility = "visible";
   }
-  if (index < playlist.musics.length - 1) {
+  if (index > 0 && index < playlist.musics.length - 1) {
     music_item.getElementsByClassName("down")[0]
               .style.visibility = "visible";
   }
@@ -243,14 +235,14 @@ function hideMoveBtns(index) {
             .style.visibility = "hidden";
 }
 
-function move_up(index) {
+function moveUp(index) {
   index = parseInt(index)
   if (index > 0) {
     swap(playlist.musics[index].id, playlist.musics[index - 1].id)
   }
 }
 
-function move_down(index) {
+function moveDown(index) {
   index = parseInt(index)
   if (index < playlist.musics.length - 1) {
     swap(playlist.musics[index].id, playlist.musics[index + 1].id)

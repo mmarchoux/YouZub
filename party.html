@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="icon.png">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
@@ -20,21 +18,20 @@
       <div class="col-sm-7">
         <div class="input-group">
           <input type="checkbox" id="toggle-state" checked data-toggle="toggle" onchange="setInputText()" data-on="<i class='material-icons'>search</i>" data-off="<i class='material-icons'>language</i>">
-          <input type="text" class="form-control m-1" placeholder="Search a music..." aria-label="Search a music" aria-describedby="search" id="inputValue">
+          <input type="text" class="form-control m-1" placeholder="Search a music..." aria-label="Search a music" aria-describedby="search" data-toggle="popover" data-placement="top" data-content="Missing Input" id="inputValue">
         </div>
       </div>
       <div class="col-sm-3">
-        <button type="button" class="btn btn-primary m-1 queue" onclick="addToPlaylist()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addEnd">
+        <button type="button" class="btn btn-primary m-1 queue" onclick="addQueue()" id="addEnd">
           <span class="material-icons" aria-hidden="true">vertical_align_bottom</span>Queue</button>
-        <button type="button" class="btn btn-secondary m-1 next" onclick="putNext()" data-toggle="popover" data-placement="top" data-content="Missing URL" id="addFirst">
-          <span class="material-icons" aria-hidden="true">vertical_align_top</span>Play Next</button>
+        <button type="button" class="btn btn-secondary m-1 next" onclick="addNext()" id="addFirst">
+          <span class="material-icons" aria-hidden="true">vertical_align_top</span>Add Next</button>
       </div>
     </nav>
     <div class="m-4">
       <div class="row">
         <div class="col-sm-7 p-4" >
           <div class="row">
-            <!-- <iframe id="player" frameborder="0" allow="autoplay"></iframe> -->
             <div id="player" class="mt-1"></div>
           </div>
         </div>
@@ -63,11 +60,11 @@
               </td>
               <td>
                 <div class="col">
-                  <button class="move-btn up close" type="button" :data-label="index" onclick="move_up(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_less</span></button>
+                  <button class="move-btn up close" type="button" :data-label="index" onclick="moveUp(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_less</span></button>
                   <div class="w-100"></div>
                   <button class="delete close" type="button" :data-label="music.id" onclick="remove(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">close</span></button>
                   <div class="w-100"></div>
-                  <button class="move-btn down close" type="button" :data-label="index" onclick="move_down(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_more</span></button>
+                  <button class="move-btn down close" type="button" :data-label="index" onclick="moveDown(this.getAttribute('data-label'))"><span class="material-icons" aria-hidden="true">expand_more</span></button>
                 </div>
               </td>
             </tr>
@@ -82,7 +79,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="party.js"></script>
   </body>
 </html>
