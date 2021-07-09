@@ -176,7 +176,7 @@ function addQueue() {
     playlist.addEndList(input);
   }
   else {
-    popupEmptyInput();
+    popup('#inputValue', 'Missing Input');
   }
 }
 
@@ -186,19 +186,19 @@ function addNext(){
     playlist.addBeginList(input);
   }
   else {
-    popupEmptyInput();
+    popup('#inputValue', 'Missing Input');
   }
 }
 
-function popupEmptyInput() {
-  $('#inputValue').popover('enable');
-  $('#inputValue').popover('show');
-  $("#inputValue").on('shown.bs.popover',function() {
+function popup(htmlId, message) {
+  var el = $(htmlId);
+  el.attr('data-content', message)
+  el.popover('show');
+  el.on('shown.bs.popover',function() {
       setTimeout(function() {
-      $("#inputValue").popover("hide")}, POPUP_TIMEOUT);
+      el.popover("hide")}, POPUP_TIMEOUT);
   });
-  $('#inputValue').popover('disable');
-  console.log("Input empty");
+  console.log(message);
 }
 
 function remove(musicToRemove){
