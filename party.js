@@ -84,16 +84,18 @@ document.getElementById("inputValue").addEventListener("keyup", event => {
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '360',
-    width: '640',
-    videoId: playlist.musics[0].id,
-    playerVars: { autoplay: true },
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
+  if (playlist.musics[0]) {
+    player = new YT.Player('player', {
+      height: '480',
+      width: '720',
+      videoId: playlist.musics[0].id,
+      playerVars: { autoplay: true },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -118,6 +120,14 @@ function refresh() {
   .then(response => {
       playlist.musics = response.data
       console.log(playlist.musics)
+
+      if (!player) {
+        onYouTubeIframeAPIReady();
+      }
+      else if (player.getVideoData().video_id != playlist.musics[0].id) {
+        player.loadVideoById(playlist.musics[0].id);
+        player.nextVideo();
+      }
   })
 }
 
