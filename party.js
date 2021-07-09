@@ -15,7 +15,6 @@ const POPUP_TIMEOUT = 2000;
 const REFRESH_INTERVAL = 10000;
 window.setInterval('refresh()', REFRESH_INTERVAL);
 
-
 /* Playlist */
 var playlist = new Vue({
   el: '#playlist',
@@ -24,7 +23,7 @@ var playlist = new Vue({
     ]
   },
   mounted() {
-    refresh()
+    refresh();
   },
   methods: {
     addEndList: function (input) {
@@ -210,6 +209,10 @@ function popup(htmlId, message) {
       el.popover("hide")}, POPUP_TIMEOUT);
   });
   console.log(message);
+}
+
+function setTitle(htmlElement, title) {
+  htmlElement.title = title;
 }
 
 function remove(musicToRemove){

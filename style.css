@@ -55,6 +55,13 @@ p.title {
     font-size: 18px;
     margin-bottom: 1%;
     font-weight: 450;
+
+    /* To cut after 2nd line */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 p.artist {
