@@ -84,7 +84,7 @@ document.getElementById("inputValue").addEventListener("keyup", event => {
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
-  if (playlist.musics[0]) {
+  if (playlist.musics[0] && playlist.musics[0].thumbnail != "loading.gif") {
     player = new YT.Player('player', {
       height: '480',
       width: '720',
@@ -124,7 +124,8 @@ function refresh() {
       if (!player) {
         onYouTubeIframeAPIReady();
       }
-      else if (player.getVideoData().video_id != playlist.musics[0].id) {
+      else if (player.getVideoData().video_id != playlist.musics[0].id
+            && playlist.musics[0].thumbnail != "loading.gif") {
         player.loadVideoById(playlist.musics[0].id);
         player.nextVideo();
       }
