@@ -85,8 +85,6 @@ var player;
 function onYouTubeIframeAPIReady() {
   if (playlist.musics[0] && playlist.musics[0].thumbnail != "loading.gif") {
     player = new YT.Player('player', {
-      height: '720',
-      width: '1280',
       videoId: playlist.musics[0].id,
       playerVars: { autoplay: true },
       events: {
