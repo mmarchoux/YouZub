@@ -129,8 +129,8 @@ button.move-btn:hover, button.delete:hover {
 }
 
 .empty-player {
-  height: 480px;
-  max-width: 720px;
+  height: 720px;
+  max-width: 1280px;
   background-color: black;
 }
 
