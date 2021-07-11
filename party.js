@@ -157,21 +157,7 @@ function getInputValue() {
   document.getElementById("inputValue").value = "";
   console.log(input);
 
-  input = input.replace(" ", "%20");
-
-  // Sharing link
-  var reg_share = /^https:\/\/youtu\.be\/(.+)/;
-  input = input.replace(reg_share, '$1');
-  console.log(input);
-
-  // Normal link
-  var reg_url = /^https:\/\/www\.youtube\.com\/watch\?v=(.+)/;
-  input = input.replace(reg_url, '$1');
-  console.log(input);
-
-  // Playlist link
-  var reg_playlist = /^https:\/\/www\.youtube\.com\/playlist\?list=(.+)/;
-  input = input.replace(reg_playlist, '$1');
+  input = encodeURIComponent(input);
   console.log(input);
 
   return input;
