@@ -8,7 +8,6 @@ const token = urlParams.get('token');
 
 const restService = restUrl + "/list?token=" + token;
 const restSearchService = restUrl + "/search?token=" + token;
-const restSwapService = restUrl + "/swap?token=" + token;
 
 const POPUP_TIMEOUT = 2000;
 
@@ -262,7 +261,7 @@ function moveDown(index) {
 }
 
 function swap(id_l, id_r) {
-  axios.post(restSwapService+"&idl="+id_l+"&idr="+id_r)
+  axios.post(restService+"&swap"+"&idl="+id_l+"&idr="+id_r)
        .then(response => {
           playlist.musics = response.data
           console.log(playlist.musics)
